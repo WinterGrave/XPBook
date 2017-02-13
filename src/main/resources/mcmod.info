@@ -1,0 +1,16 @@
+[
+{
+  "modid": "xpbook",
+  "name": "XPBook",
+  "description": "Gives a book to store XP.",
+  "version": "0.0.2-beta",
+  "mcversion": "1.11.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Winter_Grave"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
