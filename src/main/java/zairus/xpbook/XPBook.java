@@ -3,7 +3,7 @@ package zairus.xpbook;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,9 +29,9 @@ public class XPBook
 	public static CreativeTabs mainTab = new CreativeTabs("xpbookMainTab") {
 		@Override
 		@SideOnly(Side.CLIENT)
-		public ItemStack getTabIconItem()
+		public Item getTabIconItem()
 		{
-			return new ItemStack(XPBItems.XP_BOOK);
+			return XPBItems.XP_BOOK;
 		}
 	};
 	
