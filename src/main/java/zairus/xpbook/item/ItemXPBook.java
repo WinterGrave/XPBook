@@ -2,9 +2,11 @@ package zairus.xpbook.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -15,7 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import zairus.xpbook.XPBook;
 
-public class ItemXPBook extends Item
+public class ItemXPBook extends XPBItem
 {
 	public static final int TOTAL_CAPACITY = 1395;
 	
@@ -23,6 +25,12 @@ public class ItemXPBook extends Item
 	{
 		this.setMaxStackSize(1);
 		this.setCreativeTab(XPBook.mainTab);
+	}
+	
+	public ItemXPBook(String id, CreativeTabs creativeTab)
+	{
+		super(id, creativeTab);
+		this.setMaxStackSize(1);
 	}
 	
 	@Override
@@ -76,7 +84,8 @@ public class ItemXPBook extends Item
 			int capacity = damage;
 			int xpAdded = xpTotal > capacity ? capacity : xpTotal;
 			
-			player.removeExperienceLevel(curLevel);
+			player.onEnchant(book, curLevel);
+			
 			player.experience = 0;
 			
 			player.addExperience(xpTotal - xpAdded);
@@ -87,28 +96,44 @@ public class ItemXPBook extends Item
 		{
 			int xpAdded = TOTAL_CAPACITY - damage;
 			
-			player.removeExperienceLevel(curLevel);
+			player.onEnchant(book, curLevel);
+			
 			player.experience = 0;
 			
 			player.addExperience(xpAdded + xpTotal);
 			book.setItemDamage(TOTAL_CAPACITY);
 		}
 		
+		player.addExperience(0);
+		
 		return result;
 	}
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> subItems)
+	@SuppressWarnings("unused")
+	private void playerRemoveExperienceLevel(EntityPlayer player, int levels)
 	{
-		ItemStack stack = new ItemStack(item);
-		stack.setItemDamage(TOTAL_CAPACITY);
-		subItems.add(stack);
+		player.experienceLevel -= levels;
+		
+		if (player.experienceLevel < 0)
+		{
+			player.experienceLevel = 0;
+			player.experience = 0.0F;
+			player.experienceTotal = 0;
+		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		ItemStack stack = new ItemStack(this);
+		stack.setItemDamage(TOTAL_CAPACITY);
+		items.add(stack);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
 		tooltip.add("Sneak-Right-Click to store XP");
 		tooltip.add("Right-Click to retrieve XP");

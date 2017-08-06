@@ -49,8 +49,6 @@ public class XPBook
     {
 		XPBook.proxy.init(event);
 		
-		XPBItems.register();
-		
 		XPBook.proxy.initBuiltinShapes();
 		
 		XPBCraftingHandler.addRecipes();
