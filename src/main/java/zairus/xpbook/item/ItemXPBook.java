@@ -126,9 +126,12 @@ public class ItemXPBook extends XPBItem
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
-		ItemStack stack = new ItemStack(this);
-		stack.setItemDamage(TOTAL_CAPACITY);
-		items.add(stack);
+		if(tab == XPBook.mainTab)
+		{
+			ItemStack stack = new ItemStack(this);
+			stack.setItemDamage(TOTAL_CAPACITY);
+			items.add(stack);
+		}
 	}
 	
 	@Override
