@@ -65,6 +65,10 @@ public class ItemXPBook extends XPBItem
 			return result;
 		
 		ItemStack book = player.getHeldItem(hand);
+		
+		if (book.stackSize != 1)
+			return result;
+		
 		int damage = book.getItemDamage();
 		
 		int curLevel = player.experienceLevel;
